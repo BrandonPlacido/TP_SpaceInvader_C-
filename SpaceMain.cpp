@@ -13,57 +13,46 @@
 
 int main()
 {
-	
+
 	Vaisseau Vaisseau;
-	Laser laserVaisseau;
+
+
+
+
+	Laser laserJoueur;
+	laserJoueur.isAlive = false;
+
+
+
+
 	UIKit Cadre;
-	
+
 	Cadre.cadre(0, 0, 60, 45, FOREGROUND_GREEN);
 	Cadre.curseurVisible(false);
 	char touche;
 
 	while (true) {
-		
-		
-			 if (_kbhit()) {
-				touche = _getch();
 
-				//Apparision et mouvement du Laser du Vaisseau
-				
-				if (touche == 'a') {
-					laserVaisseau.startLaser(Vaisseau.coord.getPositionX());
-					if (laserVaisseau.coord.getPositionY() > 1) {
-						laserVaisseau.moveLaser();
-						Sleep(50);
 
-						
-					}
-					//Destruction du laser
-					if(laserVaisseau.coord.getPositionY() == 1)
-					laserVaisseau.removeLaser();
+		if (_kbhit()) {
+			touche = _getch();
+
+
+			if (touche == 'a') {
+				if (!laserJoueur.isAlive) {
+					laserJoueur.startLaser(Vaisseau.coord.getPositionX());
 				}
-
-
-
-				//Mouvement du vaisseau
-
+			}
+			else {
 				Vaisseau.modifierPosition(touche);
-				if (Vaisseau.coord.getPositionX() < 1) {
-					Vaisseau.coord.setPositionX(0);
-
-				}else  if (Vaisseau.coord.getPositionX() > 59) {
-
-					Vaisseau.coord.setPositionX(59);
-				}
+			}
 
 			
-
-				
-
-			}
 		}
-	
+		if (laserJoueur.isAlive)
+			laserJoueur.moveLaser();
 
-
+		Sleep(100);
+	}
 	return 0;
 }
